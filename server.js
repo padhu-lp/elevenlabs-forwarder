@@ -26,7 +26,7 @@ app.post('/', async (req, res) => {
     }
     
     // Forward to n8n
-    const response = await fetch('https://n8n.padmanabhan.me/webhook/Travel', {
+    const response = await fetch('https://n8n.padmanabhan.me/webhook-test/Travel', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
