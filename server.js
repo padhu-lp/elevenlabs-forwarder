@@ -11,20 +11,20 @@ app.get('/', (req, res) => {
   res.send('Webhook forwarder is running! Send a POST request to this URL.');
 });
 
-// Main webhook handler
+// Main webhook handler - ElevenLabs to n8n forwarder Test
 app.post('/', async (req, res) => {
   try {
     // Get the request body from ElevenLabs
     const body = req.body;
     console.log('Received data:', body);
-    
+
     // Process email addresses if needed
     if (body.text) {
       body.text = body.text.replace(/(\S+)\s+at\s+(\S+)\s+dot\s+(\S+)/gi, '$1@$2.$3')
-                           .replace(/(\S+)\s+at\s+(\S+\.\S+)/gi, '$1@$2');
+        .replace(/(\S+)\s+at\s+(\S+\.\S+)/gi, '$1@$2');
       console.log('Processed text:', body.text);
     }
-    
+
     // Forward to n8n
     const response = await fetch('https://n8n.padmanabhan.me/webhook/Travel', {
       method: 'POST',
@@ -35,16 +35,16 @@ app.post('/', async (req, res) => {
       },
       body: JSON.stringify(body)
     });
-    
+
     const responseText = await response.text();
     console.log('n8n response:', response.status, responseText);
-    
+
     res.status(200).json({
       status: 'success',
       message: 'Data forwarded to n8n',
       n8n_response: responseText
     });
-    
+
   } catch (error) {
     console.error('Error:', error.message);
     res.status(500).json({
